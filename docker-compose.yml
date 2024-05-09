@@ -8,12 +8,12 @@ services:
     labels:
       - 'traefik.enable=true'
       #Routers
-      - "traefik.http.routers.website.rule=Host(`alpha-tifo.julian-husson.com`)"
-      - "traefik.http.routers.website.entrypoints=websecure"
-      - "traefik.http.routers.website.tls.certresolver=resolver"
-      - "traefik.http.routers.website.middlewares=rate-limit"
+      - "traefik.http.routers.alpha-tifo.rule=Host(`alpha-tifo.julian-husson.com`)"
+      - "traefik.http.routers.alpha-tifo.entrypoints=websecure"
+      - "traefik.http.routers.alpha-tifo.tls.certresolver=resolver"
+      - "traefik.http.routers.alpha-tifo.middlewares=rate-limit"
       #Services
-      - "traefik.http.services.website.loadbalancer.server.port=3000"
+      - "traefik.http.services.alpha-tifo.loadbalancer.server.port=3000"
       #Middlewares
       - "traefik.http.middlewares.rate-limit.ratelimit.average=5"
       - "traefik.http.middlewares.rate-limit.ratelimit.burst=10"
