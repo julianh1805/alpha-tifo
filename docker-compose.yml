@@ -21,3 +21,4 @@ services:
       - web
 networks:
   web:
+    external: true
