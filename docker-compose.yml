@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  alpha-tifo:
+    container_name: alpha-tifo
+    build:
+      context: .
+      dockerfile: Dockerfile
+    labels:
+      - 'traefik.enable=true'
+      #Routers
+      - "traefik.http.routers.website.rule=Host(`alpha-tifo.julian-husson.com`)"
+      - "traefik.http.routers.website.entrypoints=websecure"
+      - "traefik.http.routers.website.tls.certresolver=resolver"
+      - "traefik.http.routers.website.middlewares=rate-limit"
+      #Services
+      - "traefik.http.services.website.loadbalancer.server.port=3000"
+      #Middlewares
+      - "traefik.http.middlewares.rate-limit.ratelimit.average=5"
+      - "traefik.http.middlewares.rate-limit.ratelimit.burst=10"
+    networks:
+      - web
+networks:
+  web:
