@@ -69,12 +69,20 @@ export default {
       for (let i = 0; i < normalizedSentence.length; i++) {
         let character = normalizedSentence[i];
         if (character !== ' ') {
-          if(character === ':') character = '.';
-          if (characterCounts[character]) {
-            characterCounts[character]++;
+          if(character === ':') {
+            if (characterCounts['.']) {
+              characterCounts['.'] = characterCounts['.'] + 2;
+            } else {
+              characterCounts['.'] = 2;
+            }
           } else {
-            characterCounts[character] = 1;
+            if (characterCounts[character]) {
+              characterCounts[character]++;
+            } else {
+              characterCounts[character] = 1;
+            }
           }
+
         }
       }
       const pairs = [];
