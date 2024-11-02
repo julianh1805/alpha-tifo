@@ -68,13 +68,14 @@ export default {
       const characterCounts = {};
       let i = 0;
       while (i < normalizedSentence.length) {
+        console.log(normalizedSentence[i])
         if (normalizedSentence.slice(i, i + 3) === '...') {
           characterCounts['.'] = (characterCounts['.'] || 0) + 3;
           i += 3;
         } else if (normalizedSentence[i] === ':') {
           characterCounts['.'] = (characterCounts['.'] || 0) + 2;
           i++;
-        } else if (normalizedSentence[i] === '...') {
+        } else if (normalizedSentence[i] === '\u2026') {
           characterCounts['.'] = (characterCounts['.'] || 0) + 3;
           i++;
         } else {
