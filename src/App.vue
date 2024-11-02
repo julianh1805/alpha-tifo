@@ -2,8 +2,8 @@
   <div class="container">
     <h1>Alpha Tifo</h1>
     <p>Cet utilitaire permet de compter le <strong>nombre de lettres à tracer</strong> pour une banderole. Il tient en compte du fait
-      que les "lots de deux lettres" se tracent qu'une seule fois. Il tient en compte aussi les numéros et signes de ponctuation, mais ne tiens pas en
-      compte les majuscules/minuscules ni les caractères spéciaux (e = E, ê = E, É = E).</p>
+      que deux lettres se tracent qu'une seule fois. Il tient en compte aussi des numéros et signes de ponctuation et ne tiens pas en
+      compte du fait qui il ait de majuscules/minuscules ou de caractères spéciaux (e devient E, ê devient E, É devient aussi E).</p>
     <textarea v-model="sentence" placeholder="Phrase à compter..." id="sentence" name="sentence" rows="5" cols="33"></textarea>
     <div class="buttons">
       <button class="primary" @click="count()">Compter les lettres</button>
@@ -59,11 +59,17 @@ export default {
       return accentMap[character] || character;
     },
     count() {
-      const normalizedSentence = this.sentence.toUpperCase().split('').map(this.normalizeCharacter).join('');
+      const normalizedSentence = this.sentence
+          .toUpperCase()
+          .split('')
+          .map(this.normalizeCharacter)
+          .filter(character => character !== '\n')
+          .join('');
       const characterCounts = {};
       for (let i = 0; i < normalizedSentence.length; i++) {
-        const character = normalizedSentence[i];
+        let character = normalizedSentence[i];
         if (character !== ' ') {
+          if(character === ':') character = '.';
           if (characterCounts[character]) {
             characterCounts[character]++;
           } else {
