@@ -66,29 +66,20 @@ export default {
           .filter(character => character !== '\n')
           .join('');
       const characterCounts = {};
-      for (let i = 0; i < normalizedSentence.length; i++) {
-        let character = normalizedSentence[i];
-        if (character !== ' ') {
-          if(character === ':') {
-            if (characterCounts['.']) {
-              characterCounts['.'] = characterCounts['.'] + 2;
-            } else {
-              characterCounts['.'] = 2;
-            }
-          } else if(character === '...') {
-            if (characterCounts['.']) {
-              characterCounts['.'] = characterCounts['.'] + 3;
-            } else {
-              characterCounts['.'] = 3;
-            }
-          } else {
-            if (characterCounts[character]) {
-              characterCounts[character]++;
-            } else {
-              characterCounts[character] = 1;
-            }
+      let i = 0;
+      while (i < normalizedSentence.length) {
+        if (normalizedSentence.slice(i, i + 3) === '...') {
+          characterCounts['.'] = (characterCounts['.'] || 0) + 3;
+          i += 3;
+        } else if (normalizedSentence[i] === ':') {
+          characterCounts['.'] = (characterCounts['.'] || 0) + 2;
+          i++;
+        } else {
+          const character = normalizedSentence[i];
+          if (character !== ' ') { // Exclude spaces
+            characterCounts[character] = (characterCounts[character] || 0) + 1;
           }
-
+          i++;
         }
       }
       const pairs = [];
