@@ -74,6 +74,9 @@ export default {
         } else if (normalizedSentence[i] === ':') {
           characterCounts['.'] = (characterCounts['.'] || 0) + 2;
           i++;
+        } else if (normalizedSentence[i] === '...') {
+          characterCounts['.'] = (characterCounts['.'] || 0) + 3;
+          i++;
         } else {
           const character = normalizedSentence[i];
           if (character !== ' ') { // Exclude spaces
