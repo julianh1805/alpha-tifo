@@ -75,6 +75,12 @@ export default {
             } else {
               characterCounts['.'] = 2;
             }
+          } else if(character === '...') {
+            if (characterCounts['.']) {
+              characterCounts['.'] = characterCounts['.'] + 3;
+            } else {
+              characterCounts['.'] = 3;
+            }
           } else {
             if (characterCounts[character]) {
               characterCounts[character]++;
