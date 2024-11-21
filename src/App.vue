@@ -5,7 +5,11 @@
       que deux lettres se tracent qu'une seule fois. Il tient en compte aussi des numéros et signes de ponctuation et ne tiens pas en
       compte du fait qui il ait de majuscules/minuscules ou de caractères spéciaux (e devient E, ê devient E, É devient aussi E).</p>
     <textarea v-model="sentence" placeholder="Phrase à compter..." id="sentence" name="sentence" rows="5" cols="33"></textarea>
-    <div class="buttons">
+    <div class="multiplier-buttons">
+      <button class="tertiary" :class="{ active: multiplier === 2 }" @click="changeMultiplier(2)">x2</button>
+      <button class="tertiary" :class="{ active: multiplier === 4 }" @click="changeMultiplier(4)">x4</button>
+    </div>
+    <div class="search-buttons">
       <button class="primary" @click="count()">Compter les lettres</button>
       <button class="secondary" @click="reset()">Réinitialiser</button>
     </div>
@@ -26,11 +30,15 @@ export default {
   },
   data() {
     return {
+      multiplier: 2,
       sentence: '',
       pairsCounts: {}
     };
   },
   methods: {
+    changeMultiplier(number) {
+      this.multiplier = number;
+    },
     reset() {
       this.sentence = '';
       this.pairsCounts = {};
@@ -68,7 +76,6 @@ export default {
       const characterCounts = {};
       let i = 0;
       while (i < normalizedSentence.length) {
-        console.log(normalizedSentence[i])
         if (normalizedSentence.slice(i, i + 3) === '...') {
           characterCounts['.'] = (characterCounts['.'] || 0) + 3;
           i += 3;
@@ -89,8 +96,8 @@ export default {
       const pairs = [];
       for (const character in characterCounts) {
         const count = characterCounts[character];
-        const adjustedCount = count % 2 === 0 ? count : count + 1;
-        const numberOfPairs = Math.floor(adjustedCount / 2);
+        const adjustedCount = count % this.multiplier === 0 ? count : count + 1;
+        const numberOfPairs = Math.ceil(adjustedCount / this.multiplier);
         if (numberOfPairs > 0) {
           pairs.push([character, numberOfPairs]);
         }
@@ -156,7 +163,7 @@ li{
   margin: 5px 0;
 }
 
-.buttons{
+.search-buttons, .multiplier-buttons{
   display: flex;
   gap: 10px;
 }
@@ -188,6 +195,28 @@ button {
 }
 .secondary:hover {
   background-color: #afafaf;
+}
+
+.primary{
+  flex: 1;
+  background-color: #e8e337;
+  transition: 0.5s;
+}
+.primary:hover {
+  background-color: #c4c01f;
+}
+
+.tertiary{
+  flex: 1;
+  background-color: #ffffff;
+  transition: 0.5s;
+}
+.tertiary:hover {
+  background-color: #eaeaea;
+}
+
+.tertiary.active{
+  background-color: #efebb3;
 }
 
 
